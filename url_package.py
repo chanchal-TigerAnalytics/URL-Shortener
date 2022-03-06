@@ -10,7 +10,7 @@ def getShortURL(longURL):
     """
 
     size = random.randint(5,8)
-    chars = string.ascii_lowercase
+    chars = string.ascii_lowercase + string.digits;
 
     shortURL = "".join([random.choice(chars) for i in range(size)])
     
