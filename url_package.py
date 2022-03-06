@@ -4,15 +4,10 @@ import pickle
 
 dbname = 'userdatabase.pkl'
 
-def getShortURL(longURL):
+def getShortURL(longURL, myShortURL = None):
     """
         For the given longURL, it returns the Short URL.
     """
-
-    size = random.randint(5,8)
-    chars = string.ascii_lowercase + string.digits;
-
-    shortURL = "".join([random.choice(chars) for i in range(size)])
     
     # load the database from 'user_database.pkl'
     DB = {}
@@ -21,6 +16,24 @@ def getShortURL(longURL):
             DB = pickle.load(dbfile)
         except:
             pass
+        
+    if myShortURL:
+        if myShortURL in DB:
+            return "Short URL Already exists."
+        else:
+            DB[myShortURL] = longURL
+            
+            # update the database
+            with open(dbname, 'wb') as dbfile:
+                pickle.dump(DB, dbfile)
+                
+            return "ckm.in/" + myShortURL;
+            
+    size = random.randint(5,8)
+    chars = string.ascii_lowercase + string.digits;
+
+    shortURL = "".join([random.choice(chars) for i in range(size)])
+
 
     # if this shortURL is already present in DB
     # call this function again
