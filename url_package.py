@@ -19,7 +19,8 @@ def getShortURL(longURL, myShortURL = None):
         
     if myShortURL:
         if myShortURL in DB:
-            return "Short URL Already exists."
+            print("Short URL Already exists.")
+            return myShortURL
         else:
             DB[myShortURL] = longURL
             
@@ -105,7 +106,27 @@ def isShortURLPresent(shortURL):
         
     return shortURL in DB
 
-
+def login(func):
+    """
+        return the wrapper function, if admin access this function.
+    """
+    adminDB = None
+    with open("admin.txt") as f:
+        adminDB = f.readlines()
+    
+    
+    def adminAuthentication(username, password):
+        isMatched = False
+        for each in adminDB:
+            usr, pswrd = tuple(each.split(":"))
+            if username == usr and password == pswrd[:-1]:
+                isMatched = True
+                func()
+        if not isMatched:
+            print("You can't see the database as you are not Admin.")
+    return adminAuthentication
+        
+@login
 def showDatabase():
     """
     prints the database current states
