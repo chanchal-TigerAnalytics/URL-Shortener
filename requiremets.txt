@@ -1,0 +1,5 @@
+1. Python 3.6  or above
+2. Python Libraries:
+    a) string
+    b) random
+    c) pickle
