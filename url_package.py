@@ -71,3 +71,52 @@ def getLongURL(shortURL):
         return DB[key]
     except KeyError:
         return "short URL doesn't exists."
+    
+def updateLongURL(shortURL, newLongURL):
+    DB = {}
+    with open(dbname, 'rb') as dbfile:
+        try:
+            DB = pickle.load(dbfile)
+        except:
+            pass
+    
+    shortURL = shortURL.split("/")[-1]
+    if shortURL in DB:
+        DB[shortURL] = newLongURL
+        
+        # update the database
+        with open(dbname, 'wb') as dbfile:
+            pickle.dump(DB, dbfile)
+            
+        return "ckm.in/" + shortURL
+    else:
+        return "Short URL doesn't exists."
+        
+def isShortURLPresent(shortURL):
+    """
+        returns True if ShortURL present in DB
+    """
+    DB = {}
+    with open(dbname, 'rb') as dbfile:
+        try:
+            DB = pickle.load(dbfile)
+        except:
+            pass
+        
+    return shortURL in DB
+
+
+def showDatabase():
+    """
+    prints the database current states
+    Returns:
+        None
+    """
+    DB = {}
+    with open(dbname, 'rb') as dbfile:
+        try:
+            DB = pickle.load(dbfile)
+        except:
+            pass
+        
+    print( DB )
